@@ -57,7 +57,7 @@ namespace Library.Api.Controllers
 
         //השאלת ספר לפי קוד ספר ות.ז של לקוח
         [HttpPost("{Code},{Id}")]
-        public ActionResult<bool> Post(int Code, string Id)
+        public ActionResult<bool> Post(string Code, int Id)
         {
 
             if(_borrowService.AddBorrow(Code, Id))

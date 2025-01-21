@@ -13,10 +13,11 @@ namespace Library.Core.Reposetory
         IEnumerable<Borrow> GetBorrowByStatus(bool Isreturn);
         //IEnumerable<Borrow> GetBorrowsByIdWithStatus(string Id, bool? Isreturn = null);
         Subscribe getSubscribeById(string id);
+        Subscribe getSubscribeById(int id);
         Book getBookById(int Code);
         Borrow getBorrowById(int Code);
         void AddBorrow(Borrow borrow);
         void UpdateBorrow(Borrow MyBorrow, Book MyBook, Subscribe MySubscribe);
-        void DeleteBorrow(Borrow MyBorrow);
+        void DeleteBorrow(Borrow MyBorrow, Book book, Subscribe subscribe);
     }
 }

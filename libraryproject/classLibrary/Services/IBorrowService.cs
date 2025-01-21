@@ -12,7 +12,7 @@ namespace Library.Core.Services
         IEnumerable<Borrow> GetAllBorrows();
         IEnumerable<Borrow> GetBorrowByStatus(bool Isreturn);
         IEnumerable<Borrow> GetBorrowsByIdWithStatus(string Id, bool? Isreturn = null);
-        bool AddBorrow(int Code, string Id);
+        bool AddBorrow(string Code, int Id);
         bool UpdateBorrow(int CodeBorrow, string IdSubscribe, int BookCode);
         bool DeleteBorrow(int BorrowCode);
     }

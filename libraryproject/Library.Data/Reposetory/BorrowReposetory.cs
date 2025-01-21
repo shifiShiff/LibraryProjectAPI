@@ -1,5 +1,6 @@
 ﻿using Library.Core.Modals;
 using Library.Core.Reposetory;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Library.Data.Reposetory
         }
         public IEnumerable<Borrow> GetAllBorrows()
         {
-            return _context.borrows.ToList();
+            return _context.borrows.Include(u=> u.BorrowBook).Include(a=> a.Subscriber).ToList();
         }
         public IEnumerable<Borrow> GetBorrowByStatus(bool Isreturn)
         {
@@ -30,7 +31,11 @@ namespace Library.Data.Reposetory
         //}
         public Subscribe getSubscribeById(string id)
         {
-            return _context.subscribers.FirstOrDefault(o => o.Id == id);
+            return _context.subscribers.FirstOrDefault(o => o.Id== id);
+        }
+        public Subscribe getSubscribeById(int id)
+        {
+            return _context.subscribers.FirstOrDefault(o => o.SubscribeId == id);
         }
         public Book getBookById(int Code)
         {
@@ -75,10 +80,10 @@ namespace Library.Data.Reposetory
 
         public void UpdateBorrow(Borrow MyBorrow, Book MyBook, Subscribe MySubscribe)
         {
-            MyBorrow.Subscriber.NumOfCurrentBorrowing--;
-            MyBorrow.Subscriber.NumOfBorrows--;
-            MySubscribe.NumOfCurrentBorrowing++;
-            MySubscribe.NumOfBorrows++;
+            //MyBorrow.Subscriber.NumOfCurrentBorrowing--;
+            //MyBorrow.Subscriber.NumOfBorrows--;
+            //MySubscribe.NumOfCurrentBorrowing++;
+            //MySubscribe.NumOfBorrows++;
 
             MyBorrow.Subscriber = MySubscribe;
             MyBorrow.BorrowBook = MyBook;
@@ -86,11 +91,13 @@ namespace Library.Data.Reposetory
 
         }
 
-        public void DeleteBorrow(Borrow MyBorrow)
+        public void DeleteBorrow(Borrow MyBorrow, Book book, Subscribe subscribe)
         {
 
-            MyBorrow.BorrowBook.IsBorrowing = false;
-            MyBorrow.Subscriber.NumOfCurrentBorrowing--;
+            //MyBorrow.BorrowBook.IsBorrowing = false;
+            book.IsBorrowing = false;
+            //MyBorrow.Subscriber.NumOfCurrentBorrowing--;
+            subscribe.NumOfCurrentBorrowing--;
             MyBorrow.IsReturned = true;
             _context.SaveChanges();
 
