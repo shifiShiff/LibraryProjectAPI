@@ -19,7 +19,6 @@
     <ProjectReference Include="..\classLibrary\Library.Core.csproj" />
     <ProjectReference Include="..\Library.Data\Library.Data.csproj" />
     <ProjectReference Include="..\Library.Servicrs\Library.Services.csproj" />
-    <ProjectReference Include="..\Library.Servicrs\Library.Servicrs.csproj" />
   </ItemGroup>
 
 </Project>

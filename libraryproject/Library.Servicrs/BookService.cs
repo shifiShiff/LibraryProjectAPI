@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Servicrs
+namespace Library.Services
 {
     public class BookService : IBookService
     {

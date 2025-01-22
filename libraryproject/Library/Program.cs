@@ -5,7 +5,9 @@ using Library.Core.Reposetory;
 using Library.Core.Services;
 using Library.Data;
 using Library.Data.Reposetory;
-using Library.Servicrs;
+using Library.Services;
+
+//using Library.Servicrs;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
