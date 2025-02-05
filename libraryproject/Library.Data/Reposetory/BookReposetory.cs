@@ -1,5 +1,6 @@
 ﻿using Library.Core.Modals;
 using Library.Core.Reposetory;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Library.Data.Reposetory
@@ -13,42 +14,31 @@ namespace Library.Data.Reposetory
         {
             _Contex = data;
         }
-        public List<Book> GetAllBooks()
+        public async Task<List<Book>> GetAllBooksAsync()
         {
-            return _Contex.books.ToList();
+            return await _Contex.books.ToListAsync();
         }
 
-        public Book GetBookCodeByName(string book)
+        public async Task<Book> GetBookCodeByNameAsync(string book)
         {
-           return _Contex.books.FirstOrDefault(b => b.Name == book);
+           return await _Contex.books.FirstOrDefaultAsync(b => b.Name == book);
             
         }
 
-        public Book GetBookById(int id)
+        public async Task<Book> GetBookByIdAsync(int id)
         {
-            return _Contex.books.FirstOrDefault(book => book.Code == id);
+            return await _Contex.books.FirstOrDefaultAsync(book => book.Code == id);
            
 
         }
-        //public IEnumerable<Book> GetFilterList(Ecategory? category = null, bool? IsBorrowed = null)
-        //{
-        //    List<Book> BooksList = _Contex.books.ToList();
-        //    if (category != null)
-        //        BooksList = BooksList.Where(book => book.Category == category).ToList();
-
-        //    if (IsBorrowed != null)
-        //        BooksList = BooksList.Where(book => book.IsBorrowing == IsBorrowed).ToList();
-
-        //    return BooksList;
-        //}
-
-        public bool AddBook(Book b)
+       
+        public async Task<bool> AddBookAsync(Book b)
         {
             _Contex.books.Add(b);
-            _Contex.SaveChanges();
+            await _Contex.SaveChangesAsync();
             return true;
         }
-        public bool UpdateBook(int id, Book b)
+        public async Task<bool> UpdateBookAsync(int id, Book b)
         {
             var bookToUpdate = _Contex.books.FirstOrDefault(book => book.Code == id);
 
@@ -60,19 +50,19 @@ namespace Library.Data.Reposetory
                 bookToUpdate.DateOfBuying = b.DateOfBuying;
                 bookToUpdate.NumOfPages = b.NumOfPages;
                 bookToUpdate.Category = b.Category;
-                _Contex.SaveChanges();
+                await _Contex.SaveChangesAsync();
                 return true;
             }
             return false;
         }
 
-        public bool DeleteBook(int id)
+        public async Task<bool> DeleteBookAsync(int id)
         {
-            var b = _Contex.books.FirstOrDefault(b => b.Code == id);
+            var b = await _Contex.books.FirstOrDefaultAsync(b => b.Code == id);
             if (b != null)
             {
                 _Contex.books.Remove(b);
-                _Contex.SaveChanges();
+                await _Contex.SaveChangesAsync();
                 return true;
             }
             return false;

@@ -22,32 +22,32 @@ namespace Library.Services
             _mappre = mapper;
         }
 
-        public List<Book> GetAllBooks()
+        public async Task<List<Book>> GetAllBooksAsync()
         {
-            return _bookReposetory.GetAllBooks();
+            return await _bookReposetory.GetAllBooksAsync();
         }
 
 
-        public int GetBookCodeByName(string book)
+        public async Task<int> GetBookCodeByNameAsync(string book)
         {
-            var mybook = _bookReposetory.GetBookCodeByName(book);
+            var mybook = await _bookReposetory.GetBookCodeByNameAsync(book);
             if (mybook != null)
                 return mybook.Code;
             return -1;
         }
 
-        public Book GetBookById(int id)
+        public async Task<Book> GetBookByIdAsync(int id)
         {
 
-            var mybook = _bookReposetory.GetBookById(id);
+            var mybook = await _bookReposetory.GetBookByIdAsync(id);
             if (mybook != null)
                 return mybook;
             return null;
         }
 
-        public IEnumerable<Book> GetFilterList(Ecategory? category = null, bool? IsBorrowed = null)
+        public async Task<IEnumerable<Book>> GetFilterListAsync(Ecategory? category = null, bool? IsBorrowed = null)
         {
-            var BooksList = _bookReposetory.GetAllBooks();
+            var BooksList = await _bookReposetory.GetAllBooksAsync();
             if (category != null)
                 BooksList = BooksList.Where(book => book.Category == category).ToList();
 
@@ -58,19 +58,19 @@ namespace Library.Services
 
         }
 
-        public bool AddBook(BookPost b)
+        public async Task<bool> AddBookAsync(BookPost b)
         {
             var tmp = _mappre.Map<Book>(b);
-            return _bookReposetory.AddBook(tmp);
+            return await _bookReposetory.AddBookAsync(tmp);
         }
-        public bool UpdateBook(int id, BookPost b)
+        public async Task<bool> UpdateBookAsync(int id, BookPost b)
         {
             var tmp = _mappre.Map<Book>(b);
-            return _bookReposetory.UpdateBook(id, tmp);
+            return await _bookReposetory.UpdateBookAsync(id, tmp);
         }
-        public bool DeleteBook(int id)
+        public async Task<bool> DeleteBookAsync(int id)
         {
-            return _bookReposetory.DeleteBook(id);
+            return await _bookReposetory.DeleteBookAsync(id);
 
         }
 

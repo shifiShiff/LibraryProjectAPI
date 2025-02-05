@@ -3,7 +3,7 @@ using Library.Core.Modals;
 using Library.Core.Modals.ModalsDTO;
 using Microsoft.AspNetCore.Mvc;
 using Library.Core.Interfaces;
-using Library.Servicrs;
+//using Library.Servicrs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +14,6 @@ namespace Library.Api.Controllers
     public class BookController : ControllerBase
     {
 
-        //private readonly IDataInteface _Data;
-
-
 
         private readonly IBookService _bookService;
 
@@ -25,18 +22,11 @@ namespace Library.Api.Controllers
             _bookService = bookService;
         }
 
-
-        //public BookController(IDataInteface context)
-        //{
-        //    _Data = context;
-        //}
-
-
         //שליפת כל רשימת הספרים
         [HttpGet]
-        public ActionResult<Book> Get()
+        public async Task<ActionResult<Book>> GetAllBooksAsync()
         {
-            var list = _bookService.GetAllBooks();
+            var list = await _bookService.GetAllBooksAsync();
             if(list is null)
                 return NotFound("empty list");
             return Ok(list);
@@ -45,9 +35,9 @@ namespace Library.Api.Controllers
 
         //שליפת קוד ספר ע"פ שם ספר (מחליף את סריקת הברקוד
         [HttpGet("BookName/{BookName}")]
-        public ActionResult Get(string BookName)
+        public async Task<ActionResult> GetBookCodeByNameAsync(string BookName)
         {
-            var bookTmp = _bookService.GetBookCodeByName(BookName);
+            var bookTmp = await _bookService.GetBookCodeByNameAsync(BookName);
             if(bookTmp==-1)
                return NotFound(-1);
            return Ok(bookTmp);
@@ -56,9 +46,9 @@ namespace Library.Api.Controllers
 
         //שליפת פרטי ספר ע"פ קוד
         [HttpGet("{bookCode}")]
-        public ActionResult Get(int bookCode)
+        public async Task<ActionResult> GetBookByIdAsync(int bookCode)
         {
-            var bookTmp = _bookService.GetBookById(bookCode);
+            var bookTmp = await _bookService.GetBookByIdAsync(bookCode);
             if (bookTmp is null)
                 return NotFound("No such a book");
             return Ok(bookTmp);
@@ -67,20 +57,21 @@ namespace Library.Api.Controllers
 
         //סינון רשימת ספרים לפי: קטגוריה/ לפי האם מושאל
         [HttpGet("filter")]
-        public ActionResult<Book> Get([FromQuery] Ecategory? category = null, [FromQuery] bool? IsBorrowed = null)
+        public async Task<ActionResult<Book>> GetFilterListAsync([FromQuery] Ecategory? category = null, [FromQuery] bool? IsBorrowed = null)
         {
-            var b = _bookService.GetFilterList(category, IsBorrowed);
+            var b = await _bookService.GetFilterListAsync(category, IsBorrowed);
             if (b != null)
                 return Ok(b);
             return NotFound("Empty list");
         }
 
+
         // הוספת ספר חדש לרשימת הספרים
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] BookPost b)
+        public async Task<ActionResult<bool>> PostAsync([FromBody] BookPost b)
         {
 
-            if(_bookService.AddBook(b))
+            if(await _bookService.AddBookAsync(b))
                 return Ok(true);
             return Ok(false);
         }
@@ -89,9 +80,9 @@ namespace Library.Api.Controllers
 
         // עדכון ספר ע"פ קוד לפי ספר אחר שמתקבל
         [HttpPut()]
-        public ActionResult<bool> Put(int id, [FromBody] BookPost b)
+        public async Task<ActionResult<bool>> PutAsync(int id, [FromBody] BookPost b)
         {
-            if(_bookService.UpdateBook(id, b))
+            if(await _bookService.UpdateBookAsync(id, b))
                 return Ok(true);
             return NotFound(false);
            
@@ -100,9 +91,9 @@ namespace Library.Api.Controllers
 
         // מחיקת ספר ע"פ קוד
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> DeleteAsync(int id)
         {
-            if(_bookService.DeleteBook(id))
+            if(await _bookService.DeleteBookAsync(id))
                 return Ok(true);
             return NotFound(false);
         }

@@ -9,13 +9,13 @@ namespace Library.Core.Reposetory
 {
     public interface IBookReposetory
     {
-        List<Book> GetAllBooks();
+        Task<List<Book>> GetAllBooksAsync();
 
-        Book GetBookCodeByName(string book);
-        Book GetBookById(int id);
-        //IEnumerable<Book> GetFilterList(Ecategory? category = null, bool? IsBorrowed = null);
-        bool AddBook(Book b);
-        bool UpdateBook(int id, Book b);
-        bool DeleteBook(int id);
+        Task<Book> GetBookCodeByNameAsync(string book);
+
+        Task<Book> GetBookByIdAsync(int id);
+        Task<bool> AddBookAsync(Book b);
+        Task<bool> UpdateBookAsync(int id, Book b);
+        Task<bool> DeleteBookAsync(int id);
     }
 }

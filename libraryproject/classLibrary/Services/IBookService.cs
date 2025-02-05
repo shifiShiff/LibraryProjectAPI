@@ -10,13 +10,13 @@ namespace Library.Core.Services
 {
     public interface IBookService
     {
-         List<Book> GetAllBooks();
+         Task<List<Book>> GetAllBooksAsync();
 
-        int GetBookCodeByName(string book);
-        Book GetBookById(int id);
-        IEnumerable<Book> GetFilterList(Ecategory? category = null, bool? IsBorrowed = null);
-        bool AddBook(BookPost b);
-        bool UpdateBook(int id, BookPost b);
-        bool DeleteBook(int id);
+        Task<int> GetBookCodeByNameAsync(string book);
+        Task<Book> GetBookByIdAsync(int id);
+        Task<IEnumerable<Book>> GetFilterListAsync(Ecategory? category = null, bool? IsBorrowed = null);
+        Task<bool> AddBookAsync(BookPost b);
+        Task<bool> UpdateBookAsync(int id, BookPost b);
+        Task<bool> DeleteBookAsync(int id);
     }
 }
