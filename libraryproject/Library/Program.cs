@@ -1,3 +1,4 @@
+using Library.Api.Middlewares;
 using Library.Core;
 using Library.Core.Interfaces;
 using Library.Core.Modals;
@@ -6,15 +7,11 @@ using Library.Core.Services;
 using Library.Data;
 using Library.Data.Reposetory;
 using Library.Services;
-
-//using Library.Servicrs;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// Add services to the container.
 
-//builder.Services.AddControllers();
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -30,18 +27,8 @@ builder.Services.AddScoped<ISubscribeReposetory, SubacribeReposetory>();
 builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<IBorrowReposetory, BorrowReposetory>();
 builder.Services.AddDbContext<DataContext>();
-//builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddCors();
-
-//builder.Services.AddSingleton<DataContex>();
-//builder.Services.AddScoped<DataContext>();
-
-//builder.Services.AddSingleton<DataContext>(provider =>
-//{
-//    var context = new DataContext();
-//    return context;
-//});
 
 
 
@@ -60,6 +47,9 @@ app.UseAuthorization();
 
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+//app.UseMiddleware<ShabatMiddleware>();
+
+app.UseShabbatMiddleware();
 
 app.MapControllers();
 
